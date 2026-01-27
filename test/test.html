@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Avatar World – Tests</title>
+</head>
+<body>
+  <h1>Avatar World – Test Runner</h1>
+  <p>Open the browser console to see test results.</p>
+
+  <!-- ===== MAIN CLASSES ===== -->
+   <script src="../src/MapObjects.js"></script>
+  <script src="../src/ObjectRegistry.js"></script>
+  <script src="../src/World.js"></script>
+  <script src="../src/Avatar.js"></script>
+
+  <!-- ===== TEST FILES ===== -->
+  <script src="MapObjectsTest.js"></script>
+  <script src="ObjectRegistryTest.js"></script>
+  <script src="WorldTest.js"></script>
+  <script src="AvatarTest.js"></script>
+
+  <!-- ===== INTEGRATION TEST ===== -->
+  <script src="AvatarWorldTest.js"></script>
+
+  <script src="TestSuite.js"></script>
+<script>
+  // Create the array of test instances
+  var testArray = [];
+
+  // Create instances of your test classes
+  const mapObjectTest = new MapObjectTest();
+  const objectRegistryTest = new ObjectRegistryTest();
+  const worldTest = new WorldTest();
+  const avatarTest = new AvatarTest();
+  const integrationTest = new AvatarWorldTest();
+
+  // Push them into the array
+  testArray.push(mapObjectTest);
+  testArray.push(objectRegistryTest);
+  testArray.push(worldTest);
+  testArray.push(avatarTest);
+  testArray.push(integrationTest);
+
+  // Create the test suite with the array
+  const testSuite = new TestSuite(testArray);
+
+  // Execute all tests
+  testSuite.runAll();
+</script>
+
+
+  
+
+</body>
+</html>

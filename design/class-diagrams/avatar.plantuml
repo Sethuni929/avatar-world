@@ -1,0 +1,40 @@
+@startuml World
+class World {
+    - name : String
+    - length : int
+    - width : int
+    - objects : objectRegistry
+
+    + getName()
+    + getLength()
+    + getWidth()
+    # getObjectRegistry()
+    + getObjectCount(type : Any)
+    + getObjectAtLocation(x,y)
+    + getObjectLocation(object)
+    + moveObject(object,newX,newY)
+    + addObject(object)
+    + removeObject(object,x,y)
+    + changeObjectAt(newObject,x,y)
+}
+
+class Avatar {
+    - name : String
+    - x : int
+    - y : int
+    - speed : int
+    - direction : Direction
+
+
+    + getName()
+    + turn(direction)
+    + move(length)
+    + moveTo(x,y)
+    + interactWithObject(object,action)
+    + pickUp(object)
+
+}
+
+World "1" --> "*" Avatar
+
+@enduml

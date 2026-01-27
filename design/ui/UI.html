@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeQuest UI</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  background: radial-gradient(circle at 20% 10%, #222238, #141422 55%, #0b0b14);
+  color: #e6e6f0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────── TOP BAR ─────────────────────────────── */
+.top-toolbar {
+  height: 55px;
+  background: linear-gradient(90deg, #26263e, #1a1a2d);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  border-bottom: 1px solid #32324a;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+
+.top-toolbar div:first-child {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #b7cfff;
+  text-shadow: 0 0 6px rgba(120,150,255,0.35);
+}
+
+/* LEVELS BUTTON */
+.levels-btn {
+  background: linear-gradient(135deg, #353552, #2a2a44);
+  border: 1px solid #4a4a6a;
+  color: #e3e8ff;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.25s ease;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+.levels-btn:hover {
+  background: linear-gradient(135deg, #7ea8ff, #6ea0f0);
+  color: #000;
+  box-shadow: 0 0 12px rgba(120,160,255,0.45);
+}
+
+/* ─────────────────────────────── LEVEL PANEL ─────────────────────────────── */
+.level-panel {
+  position: fixed;
+  top: 55px;
+  right: -320px;
+  width: 300px;
+  height: calc(100vh - 55px);
+  background: linear-gradient(180deg, rgba(35,25,55,0.95), rgba(20,15,35,0.95));
+  backdrop-filter: blur(10px);
+  border-left: 1px solid #5a4a7a;
+  box-shadow: -4px 0 18px rgba(140,90,220,0.35); /* subtle purple glow */
+  transition: 0.35s ease;
+  padding: 20px;
+  z-index: 20;
+}
+
+.level-panel.open {
+  right: 0;
+}
+
+.level-panel h2 {
+  margin-top: 0;
+  color: #cbb3ff;
+  text-shadow: 0 0 6px rgba(160,120,255,0.35);
+}
+
+.level-item {
+  padding: 12px;
+  margin: 10px 0;
+  background: linear-gradient(135deg, #2b2b44, #24243a);
+  border-radius: 10px;
+  border: 1px solid #3f3f5a;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.level-item:hover {
+  background: linear-gradient(135deg, #8f7bff, #6ea8ff);
+  color: #000;
+  box-shadow: 0 0 14px rgba(150,120,255,0.35);
+}
+
+.close-levels {
+  float: right;
+  cursor: pointer;
+  font-size: 22px;
+  color: #aaa;
+  transition: 0.2s ease;
+}
+
+.close-levels:hover {
+  color: #fff;
+}
+
+/* ─────────────────────────────── MAIN LAYOUT ─────────────────────────────── */
+.main {
+  height: calc(100vh - 55px);
+  display: flex;
+}
+
+.left-pane,
+.right-pane {
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-pane {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #181828, #12121d);
+  border-right: 1px solid #2a2a3f;
+}
+
+.right-pane {
+  width: 50%;
+  padding: 12px;
+  background: linear-gradient(180deg, #12121d, #0d0d16);
+}
+
+/* ─────────────────────────────── BUTTONS ─────────────────────────────── */
+.controls {
+  height: 8%;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(90deg, #1d1d2f, #181828);
+  border-bottom: 1px solid #2a2a3f;
+}
+
+.controls button {
+  background: linear-gradient(135deg, #353552, #2a2a44);
+  border: 1px solid #4a4a6a;
+  color: #e3e8ff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+.controls button:hover {
+  background: linear-gradient(135deg, #7ea8ff, #6ea0f0);
+  color: #000;
+  box-shadow: 0 0 12px rgba(120,160,255,0.45);
+}
+
+/* ─────────────────────────────── CODE AREA ─────────────────────────────── */
+.code-area {
+  flex: 1;
+  padding: 12px;
+  background: linear-gradient(180deg, #1c1c33, #151526);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #2f2f4a;
+  box-shadow: 0 0 12px rgba(0,0,0,0.45);
+}
+
+.code-area h3 {
+  margin: 0 0 8px;
+  color: #b7cfff;
+  text-shadow: 0 0 6px rgba(120,150,255,0.35);
+}
+
+.code-editor {
+  height: 100%;
+  width: 100%;
+  background: #0d0d16;
+  padding: 16px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: #d4d4d4;
+  border-radius: 12px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  border: 1px solid #2a2a3f;
+  box-shadow: inset 0 0 14px rgba(0,0,0,0.6);
+}
+
+/* ─────────────────────────────── QUEST AREA ─────────────────────────────── */
+.quest-area {
+  flex: 1;
+  padding: 14px;
+  background: linear-gradient(180deg, #20203a, #1a1a2e);
+  border: 1px solid #2f2f4a;
+  border-radius: 14px;
+  overflow-y: auto;
+  box-shadow: 0 0 12px rgba(0,0,0,0.45);
+}
+
+.quest-area h3 {
+  margin-top: 0;
+  color: #ffd98a;
+  text-shadow: 0 0 6px rgba(255,220,140,0.35);
+}
+
+/* ─────────────────────────────── RIGHT PANE ─────────────────────────────── */
+.awards {
+  height: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #1d1d2f, #181828);
+  border: 1px solid #2f2f4a;
+  border-radius: 14px;
+  font-size: 18px;
+  color: #ffe680;
+  text-shadow: 0 0 6px rgba(255,230,140,0.35);
+  box-shadow: 0 0 12px rgba(0,0,0,0.45);
+}
+
+.map {
+  height: calc(100% - 60px);
+  background: linear-gradient(135deg, #4a6fb0, #3a5f9e);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  text-shadow: 1px 1px 4px #000;
+  border: 1px solid #2f2f4a;
+  box-shadow: 0 0 16px rgba(0,0,0,0.45);
+}
+
+/* RESIZERS */
+.resizer-vertical {
+  width: 10px;
+  cursor: col-resize;
+}
+
+.resizer-horizontal {
+  height: 10px;
+  cursor: row-resize;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-toolbar">
+  <div>⚔️ CodeQuest</div>
+  <button class="levels-btn" onclick="toggleLevels()">Levels ▸</button>
+</div>
+
+<!-- LEVEL PANEL -->
+<div class="level-panel" id="levelPanel">
+  <span class="close-levels" onclick="toggleLevels()">✕</span>
+  <h2>Choose Level</h2>
+
+  <div class="level-item">Level 1</div>
+  <div class="level-item">Level 2</div>
+  <div class="level-item">Level 3</div>
+  <div class="level-item">Level 4</div>
+  <div class="level-item">Level 5</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT -->
+  <div class="left-pane" id="leftPane">
+    <div class="controls">
+      <button>Run</button>
+      <button>Pause</button>
+      <button>Reset</button>
+    </div>
+
+    <div class="code-area" id="codePane">
+      <h3>Code Editor</h3>
+      <div class="code-editor" contenteditable>
+# store the secret password
+password = ""
+# print(password) to unlock the temple
+      </div>
+    </div>
+
+    <div class="resizer-horizontal" id="hResizer"></div>
+
+    <div class="quest-area">
+      <h3>Your Quest</h3>
+      <p>
+        A Lost Temple stands before you.  
+        Store the secret password in a variable and reveal it to unlock the treasure.
+      </p>
+    </div>
+  </div>
+
+  <div class="resizer-vertical" id="vResizer"></div>
+
+  <!-- RIGHT -->
+  <div class="right-pane" id="rightPane">
+    <div class="awards">⭐ Stars: 0</div>
+    <div class="map">🏝️ Your World</div>
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+function toggleLevels() {
+  document.getElementById("levelPanel").classList.toggle("open");
+}
+
+/* RESIZERS */
+const vResizer = document.getElementById("vResizer");
+const hResizer = document.getElementById("hResizer");
+const leftPane = document.getElementById("leftPane");
+const rightPane = document.getElementById("rightPane");
+const codePane = document.getElementById("codePane");
+
+vResizer.onmousedown = e => {
+  document.onmousemove = e => {
+    const percent = e.clientX / window.innerWidth * 100;
+    leftPane.style.width = percent + "%";
+    rightPane.style.width = (100 - percent) + "%";
+  };
+  document.onmouseup = () => document.onmousemove = null;
+};
+
+hResizer.onmousedown = e => {
+  document.onmousemove = e => {
+    const topHeight = e.clientY - leftPane.getBoundingClientRect().top;
+    codePane.style.flex = "none";
+    codePane.style.height = topHeight + "px";
+  };
+  document.onmouseup = () => document.onmousemove = null;
+};
+</script>
+
+</body>
+</html>
