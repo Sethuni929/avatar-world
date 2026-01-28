@@ -13,12 +13,15 @@
   <script src="../src/ObjectRegistry.js"></script>
   <script src="../src/World.js"></script>
   <script src="../src/Avatar.js"></script>
-
+  <script src="../src/Parser.js"></script>
+   <script src="../src/Interpreter.js"></script>
   <!-- ===== TEST FILES ===== -->
   <script src="MapObjectsTest.js"></script>
   <script src="ObjectRegistryTest.js"></script>
   <script src="WorldTest.js"></script>
   <script src="AvatarTest.js"></script>
+  <script src="ParserTest.js"></script>
+   <script src="InterpreterTest.js"></script>
 
   <!-- ===== INTEGRATION TEST ===== -->
   <script src="AvatarWorldTest.js"></script>
@@ -34,6 +37,8 @@
   const worldTest = new WorldTest();
   const avatarTest = new AvatarTest();
   const integrationTest = new AvatarWorldTest();
+  const parserTest = new ParserTest();
+  const interpreterTest = new InterpreterTest();
 
   // Push them into the array
   testArray.push(mapObjectTest);
@@ -41,6 +46,8 @@
   testArray.push(worldTest);
   testArray.push(avatarTest);
   testArray.push(integrationTest);
+  testArray.push(parserTest);
+  testArray.push(interpreterTest);
 
   // Create the test suite with the array
   const testSuite = new TestSuite(testArray);
