@@ -4,6 +4,8 @@ class AvatarWorldTest {
     this.avatar = new Avatar("Hero", 0, 0, 1, 0);
   }
 
+  // === Individual Test Functions ===
+
   testAvatarMovementInWorld() {
     this.avatar.moveTo(5, 5);
 
@@ -33,14 +35,21 @@ class AvatarWorldTest {
   testObjectInteraction() {
     let pickedUp = false;
 
+    // Make collectible fully compatible with World / ObjectRegistry
     const collectible = {
+      x: 7,
+      y: 7,
+      getOccupiedCells: function() {
+        return [{ x: this.x, y: this.y }];
+      },
       onPickUp: (avatar) => {
         pickedUp = avatar.getName();
-        this.world.removeObject(this.coin);
+        // Remove itself from world after being picked up
+        this.world.removeObject(collectible);
       }
     };
 
-    // replace coin with interactive object
+    // Replace the coin with this interactive object
     this.world.changeObjectAt(collectible, 7, 7);
 
     this.avatar.moveTo(7, 7);
@@ -51,10 +60,12 @@ class AvatarWorldTest {
   }
 
   testWorldStateAfterInteraction() {
+    // Only the tree should remain after picking up collectible
     if (this.world.getObjectCount() !== 1)
       throw "World state incorrect after interaction";
   }
 
+  // === Run all integration tests ===
   run() {
     console.log("=== Running Integration Test ===");
     try {
@@ -64,10 +75,10 @@ class AvatarWorldTest {
       this.testObjectInteraction();
       this.testWorldStateAfterInteraction();
 
-      console.log("Integration test passed ✅ All systems working together");
+      console.log("Integration test passed. All systems working together");
     } catch (err) {
-      console.error("Integration test failed ❌:", err);
+      console.error("Integration test failed:", err);
+      throw err; // rethrow so TestSuite sees the failure if any
     }
   }
 }
-

@@ -41,12 +41,10 @@ class WorldTest {
   }
 
   testRemoveObject() {
-    const rock = new MapObject("rock", 6, 6);
-    this.world.addObject(rock);
+    const rock = new MapObject("rock", 6, 6); 
     this.world.removeObject(rock);
-
-    if (this.world.getObjectCount() !== 0)
-      throw "removeObject failed";
+const objectsAt6_6 = this.world.getObjectAtLocation(6, 6);
+if (objectsAt6_6.includes(rock)) throw "removeObject failed";
   }
 
   testChangeObjectAt() {

@@ -3,22 +3,25 @@ class ObjectRegistryTest {
     this.registry = new ObjectRegistry();
 
     // simple mock objects (no dependency on MapObject)
-    this.obj1 = {
-      type: "tree",
-      getOccupiedCells: () => [{ x: 2, y: 2 }]
-    };
-
-    this.obj2 = {
-      type: "rock",
-      getOccupiedCells: () => [
-        { x: 5, y: 5 },
-        { x: 5, y: 6 },
-        { x: 6, y: 5 },
-        { x: 6, y: 6 }
-      ],
-      x: 5,
-      y: 5
-    };
+ this.obj1 = {
+  type: "tree",
+  x: 2,
+  y: 2,
+  getOccupiedCells: function() { return [{ x: this.x, y: this.y }]; }
+};
+this.obj2 = {
+  type: "rock",
+  x: 5,
+  y: 5,
+  getOccupiedCells: function() { 
+    return [
+      { x: this.x, y: this.y },
+      { x: this.x, y: this.y + 1 },
+      { x: this.x + 1, y: this.y },
+      { x: this.x + 1, y: this.y + 1 }
+    ]; 
+  }
+};
   }
 
   testAdd() {
